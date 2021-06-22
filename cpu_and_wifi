@@ -1,0 +1,54 @@
+#script that both reads cpu_temp and wifi_signal and publishes on topic 'open_ears_meta'
+# This script will:
+# 1. Import libaries
+# 2. define and call functions to read wifi_signal and cpu_temp
+# 3. set up mqtt and publish message
+####libraries
+import re
+from re import findall
+import time
+from subprocess import check_output
+import paho.mqtt.publish as publish
+import json
+
+##### Define the functions
+def read_signal():
+    with open("/proc/net/wireless") as fp:
+        lines = fp.readlines()
+        for line in lines:
+            match_obj = re.search(r'wlan0:\s*[^\s]*\s*[^\s]*\s*([^\s]*)', line)
+            if match_obj:
+                return(float(match_obj[1]))
+    raise Exception("Unable to read /proc/net/wireless")
+
+def get_temp():
+    temp = check_output(["vcgencmd","measure_temp"]).decode("UTF-8")
+    return(findall("\d+\.\d+",temp)[0]) 
+
+#call the functions
+wifi_signal = read_signal()
+cpu_temp= get_temp()
+
+#set up mqtt
+mqtt_host = "mqtt.sensemakersams.org"
+mqtt_port = 31090
+mqtt_user = "openears"
+mqtt_password = ""#fill in the password
+#mqtt_app_id
+
+#export APPID=openears
+#export DEVID=OE001
+#export MQTTTOPIC=pipeline/$APPID/$DEVID
+#define a json message:
+msg_json = {
+    "app_id": "openears",
+    "dev_id": "cpu001", 
+    "payload_fields": {"cpu temp": cpu_temp, "wifi signal": wifi_signal},
+    "time": int(time.time() * 1e3)
+    }
+msg_str = json.dumps(msg_json)
+
+auth = {"username": mqtt_user, "password": mqtt_password}
+publish.single(
+    "pipeline/openears/cpu001", payload=msg_str, hostname=mqtt_host, port=mqtt_port, auth=auth
+)
