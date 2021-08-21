@@ -19,6 +19,10 @@ Clone the repository and go to the directory install/pi, choose your python vers
 
 After installation, the user - password should be pi - openears. Change as you see fit.\
 You can SSH and VNC into the PI, and you should be able to use keyboard, mouse and monitor. If necessary, configure the wifi.
+
+#### .gitignore
+The .gitignore file contains both very large files (>100 MB = too big for GitHub) as a file (oe_config.py) to store the credentials for the Sensemakers IoT Platform. 
+
 #### Configure MQTT
 Go to ~/openears/serval. If there is no serval.env file in this directory, do:\
 `cp serval.env.example serval.env`
