@@ -22,11 +22,12 @@ from scipy.io import wavfile
 from log_config import LOGGING
 import paho.mqtt.publish as publish
 import json
+import oe_config
 
-mqtt_host = "mqtt.sensemakersams.org"
-mqtt_port = 31090
-mqtt_user = "openears"
-mqtt_password = ""
+mqtt_host = oe_config.mqtt_host
+mqtt_port = oe_config.mqtt_port
+mqtt_user = oe_config.mqtt_user
+mqtt_password = oe_config.mqtt_password
 
 from audio.captor import Captor
 from audio.processor import WavProcessor, format_predictions
@@ -96,7 +97,7 @@ class Capture(object):
                 )
                 my_dict= {x[0]:x[1] for x in predictions}
                 msg_json = {
-                "app_id": "openears",
+                "app_id": oe_config.app_id,
                 "dev_id": "OE001",
                 "payload_fields": my_dict,
                 "time": int(time.time() * 1e3)
