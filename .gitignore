@@ -3,6 +3,7 @@
 *~
 devicehive-dev/samples/*.wav
 serval/serval.env
+nohup.out
 
 #credentials Sensemakers IoT platform
 oe_config.py
