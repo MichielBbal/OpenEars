@@ -22,7 +22,8 @@ from scipy.io import wavfile
 from log_config import LOGGING
 import paho.mqtt.publish as publish
 import json
-import oe_config
+import oe_config #importing file for credentials Sensemakers IoT Platform
+import cpu_temp
 
 mqtt_host = oe_config.mqtt_host
 mqtt_port = oe_config.mqtt_port
@@ -95,8 +96,11 @@ class Capture(object):
                 logger.info(
                     'Predictions: {}'.format(format_predictions(predictions))
                 )
-                my_dict= {x[0]:x[1] for x in predictions}
-                msg_json = {
+                my_dict= {x[0]:x[1] for x in predictions} #convert the predictions list to dictionary
+                cputemp = cpu_temp.get_cputemp() #get cpu temperature
+                my_dict['cpu temp']=cputemp #adding it to dict
+                #creating the mqtt message 
+                msg_json = { 
                 "app_id": oe_config.app_id,
                 "dev_id": "OE001",
                 "payload_fields": my_dict,
