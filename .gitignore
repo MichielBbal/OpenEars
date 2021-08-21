@@ -4,6 +4,9 @@
 devicehive-dev/samples/*.wav
 serval/serval.env
 
+#credentials Sensemakers IoT platform
+oe_config.py
+
 # large and old models
 devicehive-dev/models/old/
 devicehive-dev/models/vggish/
