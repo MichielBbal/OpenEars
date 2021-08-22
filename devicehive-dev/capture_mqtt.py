@@ -98,7 +98,7 @@ class Capture(object):
                 )
                 my_dict= {x[0]:x[1] for x in predictions} #convert the predictions list to dictionary
                 cputemp = cpu_temp.get_cputemp() #get cpu temperature
-                my_dict['cpu temp']=cputemp #adding it to dict
+                my_dict['cputemp']=cputemp #adding it to dict
                 #creating the mqtt message 
                 msg_json = { 
                 "app_id": oe_config.app_id,
@@ -107,6 +107,7 @@ class Capture(object):
                 "time": int(time.time() * 1e3)
                 }
                 msg_str = json.dumps(msg_json)
+                print(msg_str)
                 try: 
                     auth = {"username": mqtt_user, "password": mqtt_password}
                     publish.single("pipeline/openears/OE001", payload=msg_str, hostname=mqtt_host, port=mqtt_port, auth=auth)
