@@ -4,6 +4,6 @@
     "\\devicehive-dev",
     "\\devicehive-dev\\audio"
   ],
-  "SelectedNode": "\\devicehive-dev\\cpu_temp.py",
+  "SelectedNode": "\\devicehive-dev\\capture_mqtt.py",
   "PreviewInSolutionExplorer": false
 }
